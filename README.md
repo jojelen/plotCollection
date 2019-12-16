@@ -13,3 +13,7 @@ x,y surface). One can plot the mean/max/min of the z value in a 2D heatmap plot
 with 20*20 bins with
 
     xyzPlots(x, y, z, measure='mean', bins = 20)
+
+see example.py that generates
+
+![alt text](plots/example.pdf)
