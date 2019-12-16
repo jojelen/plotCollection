@@ -16,4 +16,4 @@ with 20*20 bins with
 
 see example.py that generates
 
-![](plots/example.pdf)
+![](/plots/example.pdf)
