@@ -21,30 +21,31 @@ def setPlotStyle():
 
     # The axes attributes need to be set before the call to subplot
     # Use , weight='bold' for boldface
-    plt.rc('font', weight='normal', size=26)
-    plt.rc('ytick.major', size=10, pad=6)
-    plt.rc('ytick.minor', size=6, pad=6)
-    plt.rc('xtick.major', size=10, pad=6)
-    plt.rc('xtick.minor', size=6, pad=6)
-    plt.rc('xtick', labelsize=26)
-    plt.rc('ytick', labelsize=26)
-    plt.rc('xtick', top=True)
-    plt.rc('ytick', right=True)
+    plt.rc("font", weight="normal", size=26)
+    plt.rc("ytick.major", size=10, pad=6)
+    plt.rc("ytick.minor", size=6, pad=6)
+    plt.rc("xtick.major", size=10, pad=6)
+    plt.rc("xtick.minor", size=6, pad=6)
+    plt.rc("xtick", labelsize=26)
+    plt.rc("ytick", labelsize=26)
+    plt.rc("xtick", top=True)
+    plt.rc("ytick", right=True)
 
     # Customize matplotlib
     matplotlib.rcParams.update(
         {
-            'font.sans-serif': 'cmr10',  # the default sans-serif font is cmss10
+            "font.sans-serif": "cmr10",  # the default sans-serif font is cmss10
             # 'font.family': 'sans-serif', #  has trouble with minus signs
-            'font.family': 'stixgeneral',
-            'mathtext.fontset': 'cm',
+            "font.family": "stixgeneral",
+            "mathtext.fontset": "cm",
             # 'mathtext.fontset': 'dejavuserif', #little bit more 'fancy' style
-            'text.usetex': False,
-            'axes.unicode_minus': False,  # bug fix related to minus signs
-            'axes.linewidth': 1.5
+            "text.usetex": False,
+            "axes.unicode_minus": False,  # bug fix related to minus signs
+            "axes.linewidth": 1.5,
         }
     )
     return
+
 
 ###############################################################################
 # Binning matrices that pick out max/min/mean of z values
@@ -54,7 +55,7 @@ def setPlotStyle():
 def meanMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
     """Returns a bin matrix
 
-    Given the arrays x,y,z, it creates a matrix  with the mean z value in each 
+    Given the arrays x,y,z, it creates a matrix  with the mean z value in each
     bin."""
 
     xWidth = (xmax - xmin) / bins
@@ -69,22 +70,25 @@ def meanMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
     # First, calculate number of points in each bin.
     # We also sum up their z value
     for i in range(len(x)):
-        if (x[i] > xmax + nPad*xWidth or x[i] < xmin - nPad*xWidth):
+        if x[i] > xmax + nPad * xWidth or x[i] < xmin - nPad * xWidth:
             continue
-        if (y[i] > ymax + nPad*yWidth or y[i] < ymin - nPad*yWidth):
+        if y[i] > ymax + nPad * yWidth or y[i] < ymin - nPad * yWidth:
             continue
-        if (z[i] > zmax or z[i] < zmin):
+        if z[i] > zmax or z[i] < zmin:
             continue
         try:
             xbin = int((x[i] - xmin) / xWidth)
-            if (xbin == bins):
+            if xbin == bins:
                 xbin = bins - 1
         except:
-            print('[ERROR]: For x[i] = {}, xmin = {}, xWidth = {}'.format(x[i],
-                                                                          xmin, xWidth))
+            print(
+                "[ERROR]: For x[i] = {}, xmin = {}, xWidth = {}".format(
+                    x[i], xmin, xWidth
+                )
+            )
             raise
         ybin = int((y[i] - ymin) / yWidth)
-        if (ybin == bins):
+        if ybin == bins:
             ybin = bins - 1
         # The imshow() Plots the matrix as an image.
         # Therefore, we reverse the y-axis and transposes the
@@ -95,9 +99,10 @@ def meanMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
     # Calculate average z value
     for i in range(bins):
         for j in range(bins):
-            if (nMatrix[i, j] != 0):
-                averageMatrix[i + nPad, j +
-                              nPad] = totMatrix[i, j] / nMatrix[i, j]
+            if nMatrix[i, j] != 0:
+                averageMatrix[i + nPad, j + nPad] = (
+                    totMatrix[i, j] / nMatrix[i, j]
+                )
 
     return averageMatrix
 
@@ -105,7 +110,7 @@ def meanMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
 def maxMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
     """Returns a bin matrix
 
-    Given the arrays x,y,z, it creates a matrix  with the max z value in each 
+    Given the arrays x,y,z, it creates a matrix  with the max z value in each
     bin."""
 
     xWidth = (xmax - xmin) / bins
@@ -118,27 +123,30 @@ def maxMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
     # Calculate thecorresponding bin.
     # Set bin value to z value if it is larger.
     for i in range(len(x)):
-        if (x[i] > xmax + nPad*xWidth or x[i] < xmin - nPad*xWidth):
+        if x[i] > xmax + nPad * xWidth or x[i] < xmin - nPad * xWidth:
             continue
-        if (y[i] > ymax + nPad*yWidth or y[i] < ymin - nPad*yWidth):
+        if y[i] > ymax + nPad * yWidth or y[i] < ymin - nPad * yWidth:
             continue
-        if (z[i] > zmax or z[i] < zmin):
+        if z[i] > zmax or z[i] < zmin:
             continue
         try:
             xbin = int((x[i] - xmin) / xWidth)
-            if (xbin == bins):
+            if xbin == bins:
                 xbin = bins - 1
         except:
-            print('[ERROR]: For x[i] = {}, xmin = {}, xWidth = {}, xmin = {}, xmax = {}'.format(x[i],
-                                                                                                xmin, xWidth, xmin, xmax))
+            print(
+                "[ERROR]: For x[i] = {}, xmin = {}, xWidth = {}, xmin = {}, xmax = {}".format(
+                    x[i], xmin, xWidth, xmin, xmax
+                )
+            )
             raise
         ybin = int((y[i] - ymin) / yWidth)
-        if (ybin == bins):
+        if ybin == bins:
             ybin = bins - 1
         # The imshow() Plots the matrix as an image.
         # Therefore, we reverse the y-axis and transposes the
         # matrix.
-        if (z[i] > finalMatrix[bins - 1 - ybin + nPad, xbin + nPad]):
+        if z[i] > finalMatrix[bins - 1 - ybin + nPad, xbin + nPad]:
             finalMatrix[bins - 1 - ybin + nPad, xbin + nPad] = z[i]
 
     return finalMatrix
@@ -147,7 +155,7 @@ def maxMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
 def minMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
     """Returns a bin matrix
 
-    Given the arrays x,y,z, it creates a matrix  with the min z value in each 
+    Given the arrays x,y,z, it creates a matrix  with the min z value in each
     bin."""
 
     xWidth = (xmax - xmin) / bins
@@ -155,32 +163,34 @@ def minMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
 
     # (nPad sets number of zero bins in edge)
     # A matrix with the maximum z values
-    finalMatrix = maxMatrix(x, y, z, bins, nPad, xmax,
-                            xmin, ymax, ymin, zmax, zmin)
+    finalMatrix = maxMatrix(
+        x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin
+    )
 
     # Go through each parameter point.
     # Calculate thecorresponding bin.
     # Set bin value to z value if it is smaller.
     for i in range(len(x)):
-        if (x[i] > xmax + nPad*xWidth or x[i] < xmin - nPad*xWidth):
+        if x[i] > xmax + nPad * xWidth or x[i] < xmin - nPad * xWidth:
             continue
-        if (y[i] > ymax + nPad*yWidth or y[i] < ymin - nPad*yWidth):
+        if y[i] > ymax + nPad * yWidth or y[i] < ymin - nPad * yWidth:
             continue
-        if (z[i] > zmax or z[i] < zmin):
+        if z[i] > zmax or z[i] < zmin:
             continue
         xbin = int((x[i] - xmin) / xWidth)
-        if (xbin == bins):
+        if xbin == bins:
             xbin = bins - 1
         ybin = int((y[i] - ymin) / yWidth)
-        if (ybin == bins):
+        if ybin == bins:
             ybin = bins - 1
         # The imshow() Plots the matrix as an image.
         # Therefore, we reverse the y-axis and transposes the
         # matrix.
-        if (z[i] < finalMatrix[bins - 1 - ybin + nPad, xbin + nPad] and z[i] > 0):
+        if z[i] < finalMatrix[bins - 1 - ybin + nPad, xbin + nPad] and z[i] > 0:
             finalMatrix[bins - 1 - ybin + nPad, xbin + nPad] = z[i]
 
     return finalMatrix
+
 
 ###############################################################################
 # Plot function
@@ -188,23 +198,24 @@ def minMatrix(x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin):
 
 
 def Heatmap(
-        x,
-        y,
-        z,
-        xLabel='x',
-        yLabel='y',
-        zLabel='z',
-        measure='max',
-        bins=10,
-        nPad=1,
-        xmax=None,
-        xmin=None,
-        ymax=None,
-        ymin=None,
-        zmax=None,
-        zmin=None,
-        norming=LogNorm(),
-        output=None):
+    x,
+    y,
+    z,
+    xLabel="x",
+    yLabel="y",
+    zLabel="z",
+    measure="max",
+    bins=10,
+    nPad=1,
+    xmax=None,
+    xmin=None,
+    ymax=None,
+    ymin=None,
+    zmax=None,
+    zmin=None,
+    norming=LogNorm(),
+    output=None,
+):
     """Heatmap of three vectors x, y, z"""
 
     assert len(x) == len(y), "x and y lengths do not match"
@@ -227,17 +238,20 @@ def Heatmap(
     yWidth = (ymax - ymin) / bins
 
     # Creates a matrix of all bins with a z value in each one
-    if (measure == 'mean'):
-        xyMatrix = meanMatrix(x, y, z, bins, nPad, xmax,
-                              xmin, ymax, ymin, zmax, zmin)
-    elif (measure == 'max'):
-        xyMatrix = maxMatrix(x, y, z, bins, nPad, xmax,
-                             xmin, ymax, ymin, zmax, zmin)
-    elif (measure == 'min'):
-        xyMatrix = minMatrix(x, y, z, bins, nPad, xmax,
-                             xmin, ymax, ymin, zmax, zmin)
+    if measure == "mean":
+        xyMatrix = meanMatrix(
+            x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin
+        )
+    elif measure == "max":
+        xyMatrix = maxMatrix(
+            x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin
+        )
+    elif measure == "min":
+        xyMatrix = minMatrix(
+            x, y, z, bins, nPad, xmax, xmin, ymax, ymin, zmax, zmin
+        )
     else:
-        print('Invalid measure in xyzHeatmap!')
+        print("Invalid measure in xyzHeatmap!")
         return
 
     # Start plotting
@@ -247,7 +261,7 @@ def Heatmap(
 
     # Colormaps the empty bins as white
     cMap = matplotlib.cm.gnuplot
-    cMap.set_bad(color='white')  # Color where heatmap = 0
+    cMap.set_bad(color="white")  # Color where heatmap = 0
     xyMatrix = np.ma.masked_where(xyMatrix == 0, xyMatrix)
 
     plt.xlabel(xLabel)
@@ -256,12 +270,20 @@ def Heatmap(
     plt.grid(alpha=0.5)
 
     # Plotting the matrix with a z value in each bin
-    plt.imshow(xyMatrix,
-               cmap=cMap,
-               norm=norming,
-               extent=[xmin - xWidth * nPad, xmax + xWidth * nPad,
-                       ymin - yWidth * nPad, ymax + yWidth * nPad],
-               vmin=zmin, vmax=zmax, aspect='auto')
+    plt.imshow(
+        xyMatrix,
+        cmap=cMap,
+        norm=norming,
+        extent=[
+            xmin - xWidth * nPad,
+            xmax + xWidth * nPad,
+            ymin - yWidth * nPad,
+            ymax + yWidth * nPad,
+        ],
+        vmin=zmin,
+        vmax=zmax,
+        aspect="auto",
+    )
 
     # Adding a colorbar
     cbar = plt.colorbar(pad=0.05)
@@ -273,9 +295,8 @@ def Heatmap(
     # Ticks configuration
     ax = plt.gca()  # gca returns current axis
     ax.tick_params(
-        axis='both',
-        which='both',
-        direction='in')  # Setting ticks inwards
+        axis="both", which="both", direction="in"
+    )  # Setting ticks inwards
 
     ax.xaxis.set_major_locator(plt.MaxNLocator(4))
     xMajorTickSpace = plt.xticks()[(0)][1] - plt.xticks()[(0)][0]
@@ -294,4 +315,4 @@ def Heatmap(
                 os.makedirs(directory)
             plt.savefig(output)
         except Exception as e:
-            print('[ERROR]: Could not save {}\n\t {}'.format(output, e))
+            print("[ERROR]: Could not save {}\n\t {}".format(output, e))
